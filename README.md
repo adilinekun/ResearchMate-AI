@@ -30,22 +30,35 @@ ResearchMate.ai is an AI-powered research tool for discovering academic papers, 
 
 ## Screenshots
 
-### Home Page
+### 🏠 Home Page
 
-![Home Page](screenshots/home.png)
+<p align="center">
+  <img src="./screenshots/Home page.png" alt="Home Page" width="900"/>
+</p>
 
-### Search Results
+---
 
-![Search Results](screenshots/search-results.png)
+### 🔍 Paper Search
 
-### Paper Details
+<p align="center">
+  <img src="./screenshots/paper search.png" alt="Paper Search" width="900"/>
+</p>
 
-![Paper Details](screenshots/paper-details.png)
+---
 
-### AI Analysis
+### 📄 Paper Details
 
-![AI Analysis](screenshots/analysis.png)
+<p align="center">
+  <img src="./screenshots/Paper detail.png" alt="Paper Details" width="900"/>
+</p>
 
+---
+
+### 🤖 AI Analysis
+
+<p align="center">
+  <img src="./screenshots/AI Analysis.png" alt="AI Analysis" width="900"/>
+</p>
 ---
 
 ## Project Structure
@@ -99,24 +112,6 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 - AI features require an OpenAI API key stored as `openai_key` in local storage.
 - Supports multiple citation formats.
 - Citation downloads now format authors and metadata more accurately.
-
-## Screenshots
-
-Add screenshots to the `screenshots/` folder with these filenames, then they will display here:
-
-- `360c85c0-7303-4a98-b75d-bd894c4b1c9a.png` — Home Page
-- `acde606e-ba55-43a0-baa7-fb85e3431a91.png` — Search Results
-- `1cde8943-6347-45a9-92cf-26bce713ee8e.png` — Paper Details
-- `afd8611f-0b42-4b9c-a20f-16560ae40e2b.png` — AI Analysis
-
-Click the images to open them in your browser.
-
-![Home Page](screenshots/360c85c0-7303-4a98-b75d-bd894c4b1c9a.png)
-![Search Results](screenshots/acde606e-ba55-43a0-baa7-fb85e3431a91.png)
-![Paper Details](screenshots/1cde8943-6347-45a9-92cf-26bce713ee8e.png)
-![AI Analysis](screenshots/afd8611f-0b42-4b9c-a20f-16560ae40e2b.png)
-
----
 
 ## Technologies Used
 
