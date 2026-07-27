@@ -94,7 +94,7 @@ export default function Home() {
         />
         {error && <p className="mt-4 text-red-400 text-center">{error}</p>}
 
-        <div className="mt-8 grid gap-4">
+        <div className="mt-8 grid gap-4 sm:grid-cols-1 md:grid-cols-2">
           {papers.map((p) => <PaperCard key={p.id} paper={p} isBookmarked={isBookmarked(p)} onToggleBookmark={toggleBookmark} />)}
         </div>
       </main>

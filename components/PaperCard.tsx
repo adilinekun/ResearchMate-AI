@@ -12,7 +12,7 @@ interface Props {
 export default function PaperCard({ paper, isBookmarked, onToggleBookmark }: Props) {
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:border-sky-500 transition-all">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-white mb-2">{paper.title}</h3>
           <p className="text-sm text-gray-400 mb-3 line-clamp-2">{paper.abstract}</p>
@@ -22,7 +22,7 @@ export default function PaperCard({ paper, isBookmarked, onToggleBookmark }: Pro
             <span>📊 {paper.citationCount} citations</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => onToggleBookmark(paper)}

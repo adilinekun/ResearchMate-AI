@@ -15,26 +15,64 @@ function downloadTextFile(content: string, fileName: string) {
   const link = document.createElement("a");
   link.href = url;
   link.download = fileName;
+  document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
 
+function formatAuthorInitials(name: string) {
+  const parts = name.trim().split(" ").filter(Boolean);
+  if (parts.length === 0) return name;
+  const lastName = parts.pop();
+  const initials = parts.map((part) => part[0]?.toUpperCase() + ".").join(" ");
+  return `${lastName}, ${initials}`.trim();
+}
+
 function buildCitation(paper: Paper, format: "apa" | "bibtex" | "txt" | "harvard") {
-  const authorList = paper.authors.map((a) => a.name).join(", ");
+  const authors = paper.authors.map((a) => a.name).filter(Boolean);
   const year = paper.year ?? "n.d.";
-  const title = paper.title;
-  const citations = paper.citationCount;
+  const title = paper.title || "Untitled";
+  const citations = paper.citationCount ?? 0;
+  const abstract = paper.abstract || "No abstract available.";
+
+  const apaAuthors = authors
+    .map(formatAuthorInitials)
+    .map((name, index, arr) => {
+      if (index === arr.length - 1 && index > 0) {
+        return `& ${name}`;
+      }
+      return name;
+    })
+    .join(", ");
+
+  const harvardAuthors = authors
+    .map(formatAuthorInitials)
+    .map((name, index, arr) => {
+      if (index === arr.length - 1 && index > 0) {
+        return `and ${name}`;
+      }
+      return name;
+    })
+    .join(", ");
+
+  const bibtexAuthors = authors.map((name) => {
+    const parts = name.trim().split(" ");
+    const last = parts.pop();
+    const first = parts.join(" ");
+    return `${last}, ${first}`;
+  }).join(" and ");
 
   switch (format) {
     case "apa":
-      return `${authorList} (${year}). ${title}. ${citations} citations.`;
+      return `${apaAuthors} (${year}). ${title}. ${abstract}`;
     case "bibtex":
-      return `@article{${paper.id},\n  title={${title}},\n  author={${authorList}},\n  year={${year}},\n  note={${citations} citations}\n}`;
+      return `@article{${paper.id},\n  title={${title}},\n  author={${bibtexAuthors}},\n  year={${year}},\n  abstract={${abstract}},\n  note={${citations} citations}\n}`;
     case "harvard":
-      return `${authorList} (${year}) ${title}. ${citations} citations.`;
+      return `${harvardAuthors} (${year}) ${title}. Available from: OpenAlex. [Accessed ${new Date().toLocaleDateString()}].`;
     case "txt":
     default:
-      return `${authorList} (${year}). ${title}. Citations: ${citations}.`;
+      return `${authors.join(", ")} (${year}). ${title}. Citations: ${citations}.\n\nAbstract: ${abstract}\n\nAPA: ${apaAuthors} (${year}). ${title}.\nHarvard: ${harvardAuthors} (${year}) ${title}.`;
   }
 }
 
@@ -101,8 +139,13 @@ export default function PaperPage() {
         
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
           <h2 className="text-2xl font-bold text-white mb-3">{paper.title}</h2>
-          <p className="text-gray-400 mb-4">{paper.abstract}</p>
-          <div className="text-sm text-gray-500">{paper.authors.map(a => a.name).join(", ")} • {paper.year || "N/A"} • {paper.citationCount} citations</div>
+          <h3 className="text-sm font-semibold text-white mb-2">Paper abstract</h3>
+          <p className="text-gray-300 mb-4 whitespace-pre-line">{paper.abstract || "No abstract available."}</p>
+          <div className="flex flex-wrap gap-3 text-sm text-gray-500">
+            <span>{paper.authors.map((a) => a.name).join(", ") || "Unknown author"}</span>
+            <span>• {paper.year || "N/A"}</span>
+            <span>• {paper.citationCount} citations</span>
+          </div>
         </div>
 
         {!analysis && !analyzing && (
@@ -113,20 +156,22 @@ export default function PaperPage() {
 
         {analyzing && <div className="bg-gray-800 rounded-xl p-12 text-center"><Loader2 className="w-10 h-10 text-sky-500 animate-spin mx-auto mb-4" /><p className="text-gray-400">Analyzing...</p></div>}
 
-        {analysis && (
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Brain className="w-5 h-5 text-violet-500" /> AI Analysis</h3>
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Brain className="w-5 h-5 text-violet-500" /> AI Analysis</h3>
+          {analysis ? (
             <div className="whitespace-pre-wrap text-gray-300 text-sm leading-relaxed">{analysis}</div>
-            <div className="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-700">
-              <button onClick={download} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Download analysis</button>
-              <button onClick={() => downloadCitation("txt")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (.txt)</button>
-              <button onClick={() => downloadCitation("apa")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (APA)</button>
-              <button onClick={() => downloadCitation("harvard")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (Harvard)</button>
-              <button onClick={() => downloadCitation("bibtex")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (BibTeX)</button>
-              <button onClick={analyze} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Brain className="w-4 h-4" /> Regenerate</button>
-            </div>
+          ) : (
+            <p className="text-gray-400 text-sm leading-relaxed">Generate AI analysis, or download citations directly for this paper.</p>
+          )}
+          <div className="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-700">
+            <button onClick={download} disabled={!analysis} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"><Download className="w-4 h-4" /> Download analysis</button>
+            <button onClick={() => downloadCitation("txt")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (.txt)</button>
+            <button onClick={() => downloadCitation("apa")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (APA)</button>
+            <button onClick={() => downloadCitation("harvard")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (Harvard)</button>
+            <button onClick={() => downloadCitation("bibtex")} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Download className="w-4 h-4" /> Citations (BibTeX)</button>
+            <button onClick={analyze} className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600"><Brain className="w-4 h-4" /> {analysis ? "Regenerate" : "Generate analysis"}</button>
           </div>
-        )}
+        </div>
       </main>
     </div>
   );
