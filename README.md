@@ -57,8 +57,9 @@ ResearchMate.ai is an AI-powered research tool for discovering academic papers, 
 ### 🤖 AI Analysis
 
 <p align="center">
-  <img src="./screenshots/AI Analysis.png" alt="AI Analysis" width="900"/>
+  <img src="./screenshots/AI analysis.png" alt="AI analysis" width="900"/>
 </p>
+
 ---
 
 ## Project Structure
