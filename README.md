@@ -33,6 +33,16 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+### Troubleshooting
+
+- If `next: command not found` appears, run `npm install` first.
+- Make sure you are using the project shell where `node_modules/.bin` is available.
+- On Windows, if `npm` or `next` is blocked by PowerShell script policy, run:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
 ## Notes
 
 - The app uses `localStorage` for bookmarks.
