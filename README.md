@@ -1,55 +1,113 @@
 # ResearchMate.ai
 
-ResearchMate.ai is an AI-powered research tool for discovering academic papers, saving bookmarks, and exporting citations.
+ResearchMate.ai is an AI-powered research tool for discovering academic papers, saving bookmarks, generating AI-powered insights, and exporting citations.
+
+## Live Demo
+
+🔗 **Deployment:** https://research-mate-ai-v5nc.vercel.app/
+
+🔗 **GitHub Repository:** https://github.com/adilinekun/ResearchMate-AI
+
+---
 
 ## What the app does
 
-- Search papers using OpenAlex metadata.
-- Display paper title, abstract, authors, year, and citation count.
+- Search research papers using OpenAlex metadata.
+- Display paper title, abstract, authors, publication year, and citation count.
 - Export citations in:
-  - Harvard format
-  - APA format
-  - BibTeX format
-  - Plain text format
-- Generate AI-based paper summaries and counter-arguments.
-- Save bookmarks to a local library using browser storage.
-- Responsive UI for desktop and mobile.
+  - Harvard
+  - APA
+  - BibTeX
+  - Plain Text
+- Generate AI-powered:
+  - Paper summaries
+  - Critical analysis
+  - Counter-arguments
+- Save bookmarks using browser local storage.
+- Responsive design for desktop and mobile devices.
 
-## Project layout
+---
 
-- `app/` - main pages and routing
-- `components/` - reusable UI components
-- `services/` - OpenAlex API integration
-- `types/` - TypeScript models
-- `public/manifest.json` - PWA manifest
-- `electron/` - Electron desktop wrapper
+## Screenshots
 
-## Run locally
+### Home Page
+
+![Home Page](screenshots/home.png)
+
+### Search Results
+
+![Search Results](screenshots/search-results.png)
+
+### Paper Details
+
+![Paper Details](screenshots/paper-details.png)
+
+### AI Analysis
+
+![AI Analysis](screenshots/analysis.png)
+
+---
+
+## Project Structure
+
+```
+app/                 Main pages and routing
+components/          Reusable UI components
+services/            OpenAlex API integration
+types/               TypeScript interfaces
+public/manifest.json Progressive Web App manifest
+electron/            Electron desktop wrapper
+```
+
+---
+
+## Running the Project
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open:
 
-### Troubleshooting
+```
+http://localhost:3000
+```
 
-- If `next: command not found` appears, run `npm install` first.
-- Make sure you are using the project shell where `node_modules/.bin` is available.
-- On Windows, if `npm` or `next` is blocked by PowerShell script policy, run:
+---
+
+## Troubleshooting
+
+If `next: command not found` appears:
+
+```bash
+npm install
+```
+
+If PowerShell blocks npm or Next.js scripts on Windows:
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
+---
+
 ## Notes
 
-- The app uses `localStorage` for bookmarks.
-- The AI analysis feature uses an OpenAI API key saved in local storage as `openai_key`.
-- Citation downloads now format authors and metadata more accurately.
+- Uses OpenAlex for research paper discovery.
+- Stores bookmarks using browser localStorage.
+- AI features require an OpenAI API key stored as `openai_key` in local storage.
+- Supports multiple citation formats.
 
-## Repository
+---
 
-https://github.com/adilinekun/ResearchMate-AI
+## Technologies Used
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- OpenAlex API
+- OpenAI API
+- Vercel
 
