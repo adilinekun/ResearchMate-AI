@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ResearchMate.ai
 
-## Getting Started
+ResearchMate.ai is an AI-powered research assistant built with Next.js and TypeScript. It helps researchers discover academic papers, save bookmarks, generate summary insights, and export citation files in multiple reference formats.
 
-First, run the development server:
+## Key Features
+
+- Search academic research using OpenAlex paper metadata.
+- View paper details, abstract, author list, year, and citation count.
+- Download citations as:
+  - Harvard style
+  - APA style
+  - BibTeX
+  - Plain text summary with abstract and metadata
+- Generate AI-assisted paper analysis and counter-arguments.
+- Save bookmarked papers to a local library using browser storage.
+- Responsive layout for desktop and mobile screens.
+- PWA-ready manifest file with icons and theme metadata.
+
+## App Structure
+
+- `app/`
+  - `page.tsx` — Home search experience and paper results.
+  - `paper/[id]/page.tsx` — Paper detail page with citation export and AI analysis.
+  - `library/page.tsx` — Saved bookmarks library.
+  - `reference/page.tsx` — AI reference assistant page.
+  - `layout.tsx` — Root layout with global metadata and manifest linking.
+- `components/`
+  - `Navbar.tsx` — Navigation header.
+  - `Hero.tsx` — Main homepage hero content.
+  - `SearchBar.tsx` — Search input, sorting, and filter controls.
+  - `PaperCard.tsx` — Search result card display.
+- `services/`
+  - `paperService.ts` — OpenAlex API integration and data mapping.
+- `types/`
+  - `paper.ts` — Paper and author TypeScript models.
+- `public/manifest.json` — Progressive Web App metadata for installable behavior.
+- `electron/` — Desktop wrapper files for Electron packaging.
+
+## Local Development
+
+Install dependencies and start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `next` — App Router architecture
+- `react` / `react-dom` — UI framework
+- `typescript` — Static typing
+- `tailwindcss` — Utility-first styling
+- `lucide-react` — Icon components
 
-## Learn More
+## Citation Export Behavior
 
-To learn more about Next.js, take a look at the following resources:
+The paper detail page supports citation downloads with realistic formatting:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Harvard** — `Last, F. (Year) Title. Available from: OpenAlex.`
+- **APA** — `Last, F. (Year). Title. Abstract...`
+- **BibTeX** — `@article{...}` entry with title, author, year, abstract, and note.
+- **Text** — simple citation summary including authors, abstract, and year.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
+This project can be deployed to Vercel, GitHub Pages, or any static-compatible hosting provider that supports Next.js.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To deploy to Vercel:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install -g vercel
+vercel login
+vercel deploy
+```
+
+## Notes
+
+- OpenAlex is used for academic metadata; abstracts are reconstructed from the inverted index when available.
+- The app stores bookmarks in `localStorage`.
+- The AI analysis feature works with an OpenAI API key stored in local storage under `openai_key`.
+
+## Repository
+
+Source code is available at: https://github.com/adilinekun/ResearchMate-AI
+
